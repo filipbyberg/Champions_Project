@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BuildingModel : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Transform wrapper;
+    public float Rotation => wrapper.transform.eulerAngles.y;
+    private BuildingShapeUnit[] shapeUnits;
+    private void Awake()
     {
-        
+        shapeUnits = GetComponentsInChildren<BuildingShapeUnit>();
+    }
+    public void Rotate(float rotationStep)
+    {
+        wrapper.Rotate(new(0, rotationStep, 0));
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<Vector3> GetAllBuildingPositions()
     {
-        
+        return shapeUnits.Select(unit => unit.transform.position).ToList();
     }
 }

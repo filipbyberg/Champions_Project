@@ -402,6 +402,10 @@ MonoBehaviour:
   buildingData1: {fileID: 11400000, guid: d2c61b0572c867e4c93be19de196d4b6, type: 2}
   buildingData2: {fileID: 11400000, guid: 23c23d2d280c0c54b93f89b05fcc495a, type: 2}
   buildingData3: {fileID: 11400000, guid: e7c64bca5b1eb5a4d96fecc3842ac4ed, type: 2}
+  buildingData4: {fileID: 11400000, guid: 5847bf4bdfdbbc9479523f9196526336, type: 2}
+  buildingData5: {fileID: 11400000, guid: 22c2ebc07e5fe6c42b980dfa26f847cc, type: 2}
+  buildingData6: {fileID: 11400000, guid: e4424b0935e872b44a81f2991408a1d1, type: 2}
+  buildingData7: {fileID: 11400000, guid: c1f78e134a122d149a58311ca56d8890, type: 2}
   previewPrefab: {fileID: 1893717790605712187, guid: b585c21f48196ed4e8a14fa13304fec3, type: 3}
   buildingPrefab: {fileID: 8903778250402907584, guid: 82fe724f6a0ba5546826668590493cce, type: 3}
   grid: {fileID: 1501787963}
@@ -542,8 +546,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1837664412}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.3413102, y: 0.0010912622, z: -0.0006046117, w: -0.9399499}
-  m_LocalPosition: {x: -0.04322338, y: 6.565721, z: -8.855377}
+  m_LocalRotation: {x: 0.68624, y: 0.00069245417, z: -0.00049565785, w: 0.7273747}
+  m_LocalPosition: {x: -0.17601869, y: 9.683569, z: -0.6574527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -634,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 1946301228}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 100, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

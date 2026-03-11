@@ -12,6 +12,10 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData buildingData1;
     [SerializeField] private BuildingData buildingData2;
     [SerializeField] private BuildingData buildingData3;
+    [SerializeField] private BuildingData buildingData4;
+    [SerializeField] private BuildingData buildingData5;
+    [SerializeField] private BuildingData buildingData6;
+    [SerializeField] private BuildingData buildingData7;
 
     // Prefabs for preview (ghost object) and final building
     [SerializeField] private BuildingPreview previewPrefab;
@@ -47,6 +51,22 @@ public class BuildingSystem : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 preview = CreatePreview(buildingData3, mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                preview = CreatePreview(buildingData4, mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                preview = CreatePreview(buildingData5, mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                preview = CreatePreview(buildingData6, mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                preview = CreatePreview(buildingData7, mousePos);
             }
         }
     }
@@ -112,8 +132,8 @@ public class BuildingSystem : MonoBehaviour
         List<int> zs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.z)).ToList();
 
         // Find center of the building footprint
-        float centerX = (xs.Min() + xs.Max()) / 2f + CellSize / 2f;
-        float centerZ = (zs.Min() + zs.Max()) / 2f + CellSize / 2f;
+        float centerX = ((xs.Min() + xs.Max()) / 2f + CellSize / 2f)/1f;
+        float centerZ = ((zs.Min() + zs.Max()) / 2f + CellSize / 2f)/1f;
 
         return new(centerX, 0, centerZ);
     }

@@ -416,6 +416,7 @@ MonoBehaviour:
   buildingData5: {fileID: 11400000, guid: 22c2ebc07e5fe6c42b980dfa26f847cc, type: 2}
   buildingData6: {fileID: 11400000, guid: e4424b0935e872b44a81f2991408a1d1, type: 2}
   buildingData7: {fileID: 11400000, guid: c1f78e134a122d149a58311ca56d8890, type: 2}
+  buildingData8: {fileID: 11400000, guid: 8bfb2e0577f60e74c95f501d186ae5d9, type: 2}
   previewPrefab: {fileID: 1893717790605712187, guid: b585c21f48196ed4e8a14fa13304fec3, type: 3}
   buildingPrefab: {fileID: 8903778250402907584, guid: 82fe724f6a0ba5546826668590493cce, type: 3}
   grid: {fileID: 1501787963}

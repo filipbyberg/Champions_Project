@@ -16,6 +16,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private BuildingData buildingData5;
     [SerializeField] private BuildingData buildingData6;
     [SerializeField] private BuildingData buildingData7;
+    [SerializeField] private BuildingData buildingData8;
 
     // Prefabs for preview (ghost object) and final building
     [SerializeField] private BuildingPreview previewPrefab;
@@ -67,6 +68,10 @@ public class BuildingSystem : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha7))
             {
                 preview = CreatePreview(buildingData7, mousePos);
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                preview = CreatePreview(buildingData8, mousePos);
             }
         }
     }

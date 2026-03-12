@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 562528e150588df4ab104914e36b900b, type: 3}
+  m_Name: Building 8
+  m_EditorClassIdentifier: 
+  <Description>k__BackingField: 4-way pipe
+  <Cost>k__BackingField: 0
+  <Model>k__BackingField: {fileID: 1566708496558400680, guid: 5ab1436f396c2244ca86bc9f754fb310, type: 3}

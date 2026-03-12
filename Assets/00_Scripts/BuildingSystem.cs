@@ -71,35 +71,35 @@ public class BuildingSystem : MonoBehaviour
         else
         {
             // If no preview exists -> allow player to select building type
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !isOffset)
             {
                 preview = CreatePreview(buildingData1, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && !isOffset)
             {
                 preview = CreatePreview(buildingData2, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && !isOffset)
             {
                 preview = CreatePreview(buildingData3, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && !isOffset)
             {
                 preview = CreatePreview(buildingData4, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            else if (Input.GetKeyDown(KeyCode.Alpha5) && !isOffset)
             {
                 preview = CreatePreview(buildingData5, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            else if (Input.GetKeyDown(KeyCode.Alpha6) && !isOffset)
             {
                 preview = CreatePreview(buildingData6, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            else if (Input.GetKeyDown(KeyCode.Alpha7) && !isOffset)
             {
                 preview = CreatePreview(buildingData7, mousePos);
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            else if (Input.GetKeyDown(KeyCode.Alpha8) && !isOffset)
             {
                 preview = CreatePreview(buildingData8, mousePos);
             }
@@ -108,7 +108,7 @@ public class BuildingSystem : MonoBehaviour
     // Method for putting all buildings to the rig and reverse
     private void ToggleBuildingOffset()
     {
-        Vector3 offset = new Vector3(45f, 22f, 20f);
+        Vector3 offset = new Vector3(45f, 21.5f, 20f);
 
         // If already offset, move everything back
         if (isOffset)

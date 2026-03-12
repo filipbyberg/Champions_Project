@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
@@ -23,10 +24,19 @@ public class BuildingSystem : MonoBehaviour
     // Reference to the grid that tracks occupied cells
     [SerializeField] private BuildingGrid grid;
 
+    // UI Content
+    [SerializeField] private RectTransform buildingListContent; // ScrollView content
+    [SerializeField] private GameObject buildingButtonPrefab;   // Button prefab for each building
+    [SerializeField] private GameObject buildingUI;
+
     // Current active preview object
     private BuildingPreview preview;
     private List<Building> placedBuildings = new();
 
+    private void Start()
+    {
+        CreateBuildingButtons();
+    }
     private void Update()
     {
         // Move build to the Rig
@@ -42,6 +52,12 @@ public class BuildingSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             ClearAllBuildings();
+        }
+
+        // Open/close building UI with the "1" key
+        if (!explorerPlayer.activeSelf && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            buildingUI.SetActive(!buildingUI.activeSelf);
         }
 
         // Get where the mouse hits the ground
@@ -67,8 +83,41 @@ public class BuildingSystem : MonoBehaviour
         }
         else
         {
-            // Dynamically handle building selection
-            HandleBuildingSelection(mousePos);
+            // If we want to just use key 1, 2, 3 etc for placing buildings
+            //HandleBuildingSelection(mousePos);
+        }
+    }
+    //Create a method to generate buttons for all availableBuilding
+    private void CreateBuildingButtons()
+    {
+        foreach (Transform child in buildingListContent)
+            Destroy(child.gameObject); // clear previous buttons
+
+        for (int i = 0; i < availableBuildings.Count; i++)
+        {
+            BuildingData data = availableBuildings[i];
+
+            GameObject buttonObj = Instantiate(buildingButtonPrefab, buildingListContent);
+            buttonObj.name = "Button_" + data.name;
+
+            // Set text label (if using Text or TMP)
+            var textComponent = buttonObj.GetComponentInChildren<TMP_Text>(); // or TMP_Text
+            if (textComponent != null)
+                textComponent.text = data.Name; // Display the building's unique name
+
+            UnityEngine.UI.Button btn = buttonObj.GetComponent<UnityEngine.UI.Button>();
+            if (btn != null)
+            {
+                btn.onClick.AddListener(() =>
+                {
+                    // Spawn preview at mouse position
+                    Vector3 mousePos = GetMouseWorldPosition();
+                    preview = CreatePreview(data, mousePos);
+
+                    // Hide the building UI automatically
+                    buildingUI.SetActive(false);
+                });
+            }
         }
     }
     // check all availableBuildings and assign keys dynamically

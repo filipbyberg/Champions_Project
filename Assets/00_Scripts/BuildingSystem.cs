@@ -14,14 +14,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private GameObject explorerPlayer;
 
     // Different building types that can be selected
-    [SerializeField] private BuildingData buildingData1;
-    [SerializeField] private BuildingData buildingData2;
-    [SerializeField] private BuildingData buildingData3;
-    [SerializeField] private BuildingData buildingData4;
-    [SerializeField] private BuildingData buildingData5;
-    [SerializeField] private BuildingData buildingData6;
-    [SerializeField] private BuildingData buildingData7;
-    [SerializeField] private BuildingData buildingData8;
+    [SerializeField] private List<BuildingData> availableBuildings = new();
 
     // Prefabs for preview (ghost object) and final building
     [SerializeField] private BuildingPreview previewPrefab;
@@ -36,74 +29,59 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        // Clear all buildings
-        if (Input.GetKeyDown(KeyCode.C) && !isOffset)
-        {
-            ClearAllBuildings();
-        }
         // Move build to the Rig
         if (Input.GetKeyDown(KeyCode.I) && preview == null)
         {
             ToggleBuildingOffset();
         }
+
+        // only update if builder camera is active
+        if (!builderCamera.activeSelf) return;
+
+        // Clear all buildings
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ClearAllBuildings();
+        }
+
         // Get where the mouse hits the ground
         Vector3 mousePos = GetMouseWorldPosition();
 
         // Allow deleting buildings when not placing new ones
-        if (preview == null)
+        if (preview == null && Input.GetMouseButtonDown(1))
         {
-            if (Input.GetMouseButtonDown(1))
-            {
-                Building hovered = GetHoveredBuilding();
+            Building hovered = GetHoveredBuilding();
 
-                if (hovered != null)
-                {
-                    grid.RemoveBuilding(hovered.GetOccupiedPositions());
-                    placedBuildings.Remove(hovered);
-                    Destroy(hovered.gameObject);
-                }
+            if (hovered != null)
+            {
+                grid.RemoveBuilding(hovered.GetOccupiedPositions());
+                placedBuildings.Remove(hovered);
+                Destroy(hovered.gameObject);
             }
         }
 
+        // If preview exists -> move and validate it
         if (preview != null)
         {
-            // If preview exists -> move and validate it
             HandePreview(mousePos);
         }
         else
         {
-            // If no preview exists -> allow player to select building type
-            if (Input.GetKeyDown(KeyCode.Alpha1) && !isOffset)
+            // Dynamically handle building selection
+            HandleBuildingSelection(mousePos);
+        }
+    }
+    // check all availableBuildings and assign keys dynamically
+    private void HandleBuildingSelection(Vector3 mousePos)
+    {
+        for (int i = 0; i < availableBuildings.Count; i++)
+        {
+            // KeyCode.Alpha1 = 49, Alpha2 = 50, etc.
+            KeyCode key = KeyCode.Alpha1 + i;
+
+            if (Input.GetKeyDown(key) && !isOffset)
             {
-                preview = CreatePreview(buildingData1, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && !isOffset)
-            {
-                preview = CreatePreview(buildingData2, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && !isOffset)
-            {
-                preview = CreatePreview(buildingData3, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4) && !isOffset)
-            {
-                preview = CreatePreview(buildingData4, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha5) && !isOffset)
-            {
-                preview = CreatePreview(buildingData5, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha6) && !isOffset)
-            {
-                preview = CreatePreview(buildingData6, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha7) && !isOffset)
-            {
-                preview = CreatePreview(buildingData7, mousePos);
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha8) && !isOffset)
-            {
-                preview = CreatePreview(buildingData8, mousePos);
+                preview = CreatePreview(availableBuildings[i], mousePos);
             }
         }
     }
@@ -138,6 +116,10 @@ public class BuildingSystem : MonoBehaviour
         {
             explorerPlayer.SetActive(true);
             builderCamera.SetActive(false);
+
+            // Reset position
+            explorerPlayer.transform.position = new Vector3(32f, 24f, 20f);
+
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

@@ -7,6 +7,9 @@ public class BuildingSystem : MonoBehaviour
 {
     // Size of one grid cell (used by grid + snapping)
     public const float CellSize = 1f;
+    private bool isOffset = false; // This keeps track of whether the layout is currently moved.
+
+    [SerializeField] private Transform cameraTransform;
 
     // Different building types that can be selected
     [SerializeField] private BuildingData buildingData1;
@@ -31,9 +34,15 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
+        // Clear all buildings
         if (Input.GetKeyDown(KeyCode.C))
         {
             ClearAllBuildings();
+        }
+        // Move build to the Rig
+        if (Input.GetKeyDown(KeyCode.I) && preview == null)
+        {
+            ToggleBuildingOffset();
         }
         // Get where the mouse hits the ground
         Vector3 mousePos = GetMouseWorldPosition();
@@ -95,6 +104,29 @@ public class BuildingSystem : MonoBehaviour
                 preview = CreatePreview(buildingData8, mousePos);
             }
         }
+    }
+    // Method for putting all buildings to the rig and reverse
+    private void ToggleBuildingOffset()
+    {
+        Vector3 offset = new Vector3(45f, 22f, 20f);
+
+        // If already offset, move everything back
+        if (isOffset)
+        {
+            offset = -offset;
+        }
+
+        // Move all buildings
+        foreach (var building in placedBuildings)
+        {
+            building.transform.position += offset;
+        }
+
+        // Move camera with the same offset
+        cameraTransform.position += offset;
+
+        // Flip state
+        isOffset = !isOffset;
     }
 
     private void ClearAllBuildings()

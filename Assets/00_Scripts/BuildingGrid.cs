@@ -28,6 +28,17 @@ public class BuildingGrid : MonoBehaviour
         }
     }
 
+    public void ClearGrid()
+    {
+        for (int x = 0; x < grid.GetLength(0); x++)
+        {
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                grid[x, y] = new BuildingGridCell();
+            }
+        }
+    }
+
     // Marks the grid cells as occupied by a building
     public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
     {
@@ -39,6 +50,15 @@ public class BuildingGrid : MonoBehaviour
 
             // Store the building in that grid cell
             grid[x, y].SetBuilding(building);
+        }
+    }
+
+    public void RemoveBuilding(List<Vector3> positions)
+    {
+        foreach (var p in positions)
+        {
+            (int x, int y) = WorldToGridPosition(p);
+            grid[x, y] = new BuildingGridCell();
         }
     }
 

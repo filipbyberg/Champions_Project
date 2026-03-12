@@ -27,11 +27,32 @@ public class BuildingSystem : MonoBehaviour
 
     // Current active preview object
     private BuildingPreview preview;
+    private List<Building> placedBuildings = new();
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            ClearAllBuildings();
+        }
         // Get where the mouse hits the ground
         Vector3 mousePos = GetMouseWorldPosition();
+
+        // Allow deleting buildings when not placing new ones
+        if (preview == null)
+        {
+            if (Input.GetMouseButtonDown(1))
+            {
+                Building hovered = GetHoveredBuilding();
+
+                if (hovered != null)
+                {
+                    grid.RemoveBuilding(hovered.GetOccupiedPositions());
+                    placedBuildings.Remove(hovered);
+                    Destroy(hovered.gameObject);
+                }
+            }
+        }
 
         if (preview != null)
         {
@@ -73,6 +94,28 @@ public class BuildingSystem : MonoBehaviour
             {
                 preview = CreatePreview(buildingData8, mousePos);
             }
+        }
+    }
+
+    private void ClearAllBuildings()
+    {
+        // Destroy all placed buildings
+        foreach (var building in placedBuildings)
+        {
+            Destroy(building.gameObject);
+        }
+
+        // Clear the list
+        placedBuildings.Clear();
+
+        // Reset the grid
+        grid.ClearGrid();
+
+        // Remove preview if it exists
+        if (preview != null)
+        {
+            Destroy(preview.gameObject);
+            preview = null;
         }
     }
 
@@ -120,14 +163,28 @@ public class BuildingSystem : MonoBehaviour
         Building building = Instantiate(buildingPrefab, preview.transform.position, Quaternion.identity);
 
         // Initialize it with building data and rotation
-        building.Setup(preview.Data, preview.BuildingModel.Rotation);
+        building.Setup(preview.Data, preview.BuildingModel.Rotation, buildingPosition);
 
         // Mark the grid cells as occupied
         grid.SetBuilding(building, buildingPosition);
 
+        // Store the building so we can delete it later
+        placedBuildings.Add(building);
+
         // Destroy preview and reset
         Destroy(preview.gameObject);
         preview = null;
+    }
+    private Building GetHoveredBuilding()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            return hit.collider.GetComponentInParent<Building>();
+        }
+
+        return null;
     }
 
     private Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPosition)
@@ -137,8 +194,8 @@ public class BuildingSystem : MonoBehaviour
         List<int> zs = allBuildingPosition.Select(p => Mathf.FloorToInt(p.z)).ToList();
 
         // Find center of the building footprint
-        float centerX = ((xs.Min() + xs.Max()) / 2f + CellSize / 2f)/1f;
-        float centerZ = ((zs.Min() + zs.Max()) / 2f + CellSize / 2f)/1f;
+        float centerX = ((xs.Min() + xs.Max()) / 2f + CellSize / 2f);
+        float centerZ = ((zs.Min() + zs.Max()) / 2f + CellSize / 2f);
 
         return new(centerX, 0, centerZ);
     }

@@ -10,6 +10,8 @@ public class BuildingSystem : MonoBehaviour
     private bool isOffset = false; // This keeps track of whether the layout is currently moved.
 
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private GameObject builderCamera;
+    [SerializeField] private GameObject explorerPlayer;
 
     // Different building types that can be selected
     [SerializeField] private BuildingData buildingData1;
@@ -35,7 +37,7 @@ public class BuildingSystem : MonoBehaviour
     private void Update()
     {
         // Clear all buildings
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && !isOffset)
         {
             ClearAllBuildings();
         }
@@ -108,25 +110,38 @@ public class BuildingSystem : MonoBehaviour
     // Method for putting all buildings to the rig and reverse
     private void ToggleBuildingOffset()
     {
-        Vector3 offset = new Vector3(45f, 21.5f, 20f);
+        Vector3 offset = new Vector3(45f, 22f, 20f);
 
-        // If already offset, move everything back
         if (isOffset)
-        {
             offset = -offset;
-        }
 
-        // Move all buildings
         foreach (var building in placedBuildings)
         {
             building.transform.position += offset;
         }
 
-        // Move camera with the same offset
-        cameraTransform.position += offset;
-
-        // Flip state
         isOffset = !isOffset;
+
+        ToggleExploreMode();
+    }
+    private void ToggleExploreMode()
+    {
+        if (explorerPlayer.activeSelf)
+        {
+            explorerPlayer.SetActive(false);
+            builderCamera.SetActive(true);
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            explorerPlayer.SetActive(true);
+            builderCamera.SetActive(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void ClearAllBuildings()

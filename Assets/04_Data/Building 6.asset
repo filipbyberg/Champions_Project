@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562528e150588df4ab104914e36b900b, type: 3}
   m_Name: Building 6
   m_EditorClassIdentifier: 
-  <Description>k__BackingField: 4-way pipe
+  <Name>k__BackingField: Valve
+  <Description>k__BackingField: 
   <Cost>k__BackingField: 0
   <Model>k__BackingField: {fileID: 3489388146931999268, guid: e0e3b5e48d25b4d4892d73d92d2e713e, type: 3}
